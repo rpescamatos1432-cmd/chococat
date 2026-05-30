@@ -1,0 +1,549 @@
+<!DOCTYPE html><html class="light" lang="pt-br" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Mundo do Chococat </title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#81515a",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#330f19",
+                    "primary": "#81515a",
+                    "primary-fixed-dim": "#f4b6c1",
+                    "outline-variant": "#d5c2c4",
+                    "on-secondary-fixed-variant": "#584324",
+                    "secondary-fixed": "#feddb3",
+                    "surface": "#fbfbe2",
+                    "on-secondary-container": "#765f3d",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#efefd7",
+                    "on-primary-fixed-variant": "#663a43",
+                    "surface-variant": "#e4e4cc",
+                    "tertiary-container": "#f2c5d0",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "tertiary": "#78555e",
+                    "tertiary-fixed": "#ffd9e2",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#dbdcc3",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#514345",
+                    "secondary": "#725a39",
+                    "tertiary-fixed-dim": "#e7bbc6",
+                    "primary-container": "#ffc0cb",
+                    "on-secondary-fixed": "#281801",
+                    "outline": "#837375",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#1b1d0e",
+                    "inverse-surface": "#303221",
+                    "background": "#fbfbe2",
+                    "on-tertiary-container": "#725059",
+                    "surface-container-high": "#eaead1",
+                    "surface-bright": "#fbfbe2",
+                    "inverse-on-surface": "#f2f2d9",
+                    "on-surface": "#1b1d0e",
+                    "on-primary-container": "#7b4b55",
+                    "secondary-container": "#fbdbb0",
+                    "primary-fixed": "#ffd9df",
+                    "on-tertiary-fixed": "#2d141c",
+                    "surface-container-low": "#f5f5dc",
+                    "inverse-primary": "#f4b6c1",
+                    "surface-container-highest": "#e4e4cc",
+                    "secondary-fixed-dim": "#e1c299",
+                    "on-tertiary-fixed-variant": "#5e3e47"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1200px",
+                    "unit": "8px",
+                    "margin-desktop": "64px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Quicksand"],
+                    "body-md": ["Quicksand"],
+                    "body-lg": ["Quicksand"],
+                    "title-md": ["Quicksand"],
+                    "display-lg": ["Quicksand"],
+                    "label-sm": ["Quicksand"],
+                    "headline-lg": ["Quicksand"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(114, 90, 57, 0.1);
+        }
+        
+        .choco-match-card {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .choco-match-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #ffebf0 0%, #fbfbe2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Peeking & Floating Animations */
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        @keyframes peeking-left {
+            0%, 100% { transform: translateX(-40%) rotate(10deg); }
+            50% { transform: translateX(-35%) rotate(12deg); }
+        }
+
+        @keyframes peeking-right {
+            0%, 100% { transform: translateX(40%) rotate(-10deg); }
+            50% { transform: translateX(35%) rotate(-12deg); }
+        }
+
+        @keyframes peeking-bottom {
+            0%, 100% { transform: translateY(30%); }
+            50% { transform: translateY(20%); }
+        }
+
+        .peek-left {
+            animation: peeking-left 6s ease-in-out infinite;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .peek-left:hover {
+            transform: translateX(-15%) rotate(5deg) scale(1.05) !important;
+            animation-play-state: paused;
+        }
+
+        .peek-right {
+            animation: peeking-right 6.5s ease-in-out infinite;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .peek-right:hover {
+            transform: translateX(15%) rotate(-5deg) scale(1.05) !important;
+            animation-play-state: paused;
+        }
+
+        .peek-bottom {
+            animation: peeking-bottom 5s ease-in-out infinite;
+        }
+
+        .float-animation {
+            animation: float-gentle 4s ease-in-out infinite;
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface/70 backdrop-blur-xl docked full-width top-0 sticky z-50 border-b border-white/40 shadow-[0_10px_30px_-15px_rgba(114,90,57,0.1)] shadow-sm">
+<nav class="flex justify-between items-center w-full py-4 max-w-container-max mx-auto px-margin-mobile">
+<div class="flex items-center gap-2">
+<img alt="Mascote" class="h-10 w-auto hover:rotate-12 transition-transform cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOCQQWB4n-8SoD9uThXZ2jb793klsqq4nZ38VjZxifqRkB3PBYNfz8LUyv4BovasaFGje64nFjrrzO669hmboO5bbqAqz9JEvx00v4ekWYf_C9An_brslvgj2XsF2NNxznaEvT3gP1TRi6pKnagUCe7wYl_S7GvgV4qMZMtb4fevy5hl1eeBsIdSV07OWe7NNCzq8t2qk0wNGuRIBNTqxGks5lMjvScCQOmv4iRRtuOyjK9WzpqdHV1u3fO0ufnzGT_0Zb1bj9TA">
+<span class="font-display-lg text-display-lg font-bold text-primary">Mundo do Chococat</span>
+</div>
+<div class="hidden md:flex items-center gap-8 font-title-md text-title-md">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Início</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:scale-95 transition-transform duration-200" href="#about">Sobre</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:scale-95 transition-transform duration-200" href="#game">Jogo</a>
+</div>
+<div class="flex items-center gap-4"></div>
+</nav>
+</header>
+<main class="relative">
+<!-- Hero Section -->
+<section class="relative flex items-center justify-center overflow-hidden px-margin-mobile md:px-margin-desktop min-h-[60vh] py-12">
+<div class="absolute inset-0 z-0 pointer-events-none">
+<img alt="Fundo Hero" class="w-full h-full object-cover opacity-60 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsKPshlOJH5I1kjX8OoUZPn7Xbx6qfpIYRM_74f5LAYPjt9JEvXDOTAxBnkUtofKimrCFZp5enQ0--T1_irvZNdUnK-iOdf3vi4IlV1yc8VjjepyaJ9Rh-rUIRp_52L9xyKmqVlLTOd-RZPEUmLWEGjYhU0ErogfVMxWnOAwMkLI4kPRIBTY-UOkEiXCk3wCqyHi8XTCUgerTTES4fZP0Vx0E4j606ivaDAOPl4GuivDrmLj1MeXcjONLhR_eA0WSbUhsS-nN2MQ" style="object-fit: cover; object-position: center 20%;">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-surface/50"></div>
+</div>
+<!-- Peeking Cats in Hero -->
+<div class="absolute left-0 top-1/4 -translate-x-1/2 z-20 peek-left pointer-events-none">
+<img alt="Peeking Chococat" class="w-48 md:w-64 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOd8Ht8AKfG3m07VF_y2j0gCPIeGDaT9hYbYZy1OBiylCemwwByeKfCK_bhRoc1qacPY5vmekqbJvaePLErVphAoywoLMDG4ohVVDTHvaFiX5N5U9UdIDL1j8ChbPCJGSpBu7smQMOg3nGDo7QVLVkGDxBYbZfKzqUt9NJ3l5eV1Ani4nD1scOHB4qrgkEE_OcD42kWKZIvy4eL_S3-mJ7XAlk_qzQMHThbPnwvbAziCTycuDenvGVdM2UCM60bagLCmm1IjtNog">
+</div>
+<div class="absolute right-0 top-1/3 translate-x-1/2 z-20 peek-right pointer-events-none">
+<img alt="Peeking Chococat" class="w-48 md:w-64 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIK_dhgDtCWH8yngZxSiDaovXQP2Qq7mtpo_DlDTFTwj2_nuUQHnmy-12BfunXtm_hUTNuThEE7vFnqjglSxKl-N0xd8P4CI86I62CGoRydLiasXKFNQ7kgevkpmEDRYTeaDhOVCAz6-sfoeaUt5ZrUc4DoRBTA_p_4gYs91E-MdyDHCwYzqZk2U_gctUHFsEXbKNa8SpgsGsnXYfONPW_towynqv8YF8fzjoGKZ2cc00U8HJ5SIAHf-EmO42Vh98ijtG27RFewA">
+</div>
+<!-- Hero Floating Element -->
+<div class="absolute top-20 right-[15%] w-32 h-32 float-animation hidden lg:block opacity-80 pointer-events-none">
+<img alt="Floating Chococat" class="w-full h-full object-contain pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOCQQWB4n-8SoD9uThXZ2jb793klsqq4nZ38VjZxifqRkB3PBYNfz8LUyv4BovasaFGje64nFjrrzO669hmboO5bbqAqz9JEvx00v4ekWYf_C9An_brslvgj2XsF2NNxznaEvT3gP1TRi6pKnagUCe7wYl_S7GvgV4qMZMtb4fevy5hl1eeBsIdSV07OWe7NNCzq8t2qk0wNGuRIBNTqxGks5lMjvScCQOmv4iRRtuOyjK9WzpqdHV1u3fO0ufnzGT_0Zb1bj9TA">
+</div>
+<div class="glass-panel relative z-10 rounded-xl max-w-3xl text-center border-t border-l border-white/60 p-6 md:p-16">
+<!-- Partially hidden behind card -->
+<img alt="Hidden Chococat" class="absolute -top-12 -left-12 w-24 opacity-40 float-animation -z-10 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDsKPDXrkp04NJXbjxFHQJUKpVNxLhYz5ugA332V7Q1OSgAaIlMdlmne1Sb4qc-FziyJJisigend9JUiR_-nH-TvAFWeFYW2agz5WAhC0iPiHMscgX6jhVAAYy4twfIYb91AhiCP2r92JVQanAiibhxWfPN_Y40UIetjWO1isVDxfbr6dhCLgwoJ7UVcjsA2vrmOzOW6if0NM34LMTs-BySLf2QXGDpig-D43E17bO280id_NslJSGJDNIurlKFnqSPgg8jfpmgQ">
+<span class="inline-block px-4 py-1 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm mb-6 uppercase tracking-wider">Bem-vindo ao Reino do Cacau</span>
+<h1 class="font-display-lg text-display-lg text-primary mb-6">Explore o Mundo do Chococat</h1>
+<p class="font-body-lg text-body-lg text-secondary mb-10 leading-relaxed">
+                    Entre em uma paisagem mágica onde o ar tem cheiro de chocolate e tudo é tão macio quanto os bigodes de um gatinho. Junte-se ao Chococat em uma jornada de doçura e alegria!
+                </p>
+</div>
+</section>
+<!-- About Section -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative overflow-visible py-12" id="about">
+<!-- Peeking Cats in About -->
+<div class="absolute left-0 bottom-1/4 -translate-x-1/3 z-10 peek-left pointer-events-none">
+<img alt="Peeking Chococat" class="w-40 md:w-56 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHv3B5EE_MfHHxdH1lzTtIPVEXui0f8Mu6Igy9Psb0lr5kmuf53_lNvkeNSpM_2qWRw2g_pUvXbLYBU1QHDAQr7QuGzzM4bjJbBP1haJdzePP65ugiyZjWawvVeAL338hXBg9ZzVeIEbNdBk2eGCDfup_qxIZxLS1_ygta_uIGWQv-HJKm4ac1VA9DABVP9Ncl83i7J9qmWbGRPXoHJFJD28oDHURUrz0Tnt1B9cNxs3siy5DvfByRwsSw4NqqCBGCpix4fizIzA">
+</div>
+<div class="absolute right-0 top-10 translate-x-1/3 z-10 peek-right pointer-events-none">
+<img alt="Peeking Chococat" class="w-40 md:w-56 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDsKPDXrkp04NJXbjxFHQJUKpVNxLhYz5ugA332V7Q1OSgAaIlMdlmne1Sb4qc-FziyJJisigend9JUiR_-nH-TvAFWeFYW2agz5WAhC0iPiHMscgX6jhVAAYy4twfIYb91AhiCP2r92JVQanAiibhxWfPN_Y40UIetjWO1isVDxfbr6dhCLgwoJ7UVcjsA2vrmOzOW6if0NM34LMTs-BySLf2QXGDpig-D43E17bO280id_NslJSGJDNIurlKFnqSPgg8jfpmgQ">
+</div>
+<div class="grid gap-16 items-center grid-cols-1 md:grid-cols-2">
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary-container rounded-lg rotate-3 group-hover:rotate-0 transition-transform duration-500 opacity-30"></div>
+<div class="relative rounded-lg overflow-hidden border-8 border-white shadow-xl bg-white">
+<img alt="Chococat Portrait" class="w-full aspect-square object-contain p-8 float-animation pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOCQQWB4n-8SoD9uThXZ2jb793klsqq4nZ38VjZxifqRkB3PBYNfz8LUyv4BovasaFGje64nFjrrzO669hmboO5bbqAqz9JEvx00v4ekWYf_C9An_brslvgj2XsF2NNxznaEvT3gP1TRi6pKnagUCe7wYl_S7GvgV4qMZMtb4fevy5hl1eeBsIdSV07OWe7NNCzq8t2qk0wNGuRIBNTqxGks5lMjvScCQOmv4iRRtuOyjK9WzpqdHV1u3fO0ufnzGT_0Zb1bj9TA">
+</div>
+</div>
+<div class="space-y-8 relative">
+<!-- Corner image in container -->
+<img alt="Corner Cat" class="absolute -right-8 -top-8 w-20 float-animation opacity-60 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIK_dhgDtCWH8yngZxSiDaovXQP2Qq7mtpo_DlDTFTwj2_nuUQHnmy-12BfunXtm_hUTNuThEE7vFnqjglSxKl-N0xd8P4CI86I62CGoRydLiasXKFNQ7kgevkpmEDRYTeaDhOVCAz6-sfoeaUt5ZrUc4DoRBTA_p_4gYs91E-MdyDHCwYzqZk2U_gctUHFsEXbKNa8SpgsGsnXYfONPW_towynqv8YF8fzjoGKZ2cc00U8HJ5SIAHf-EmO42Vh98ijtG27RFewA">
+<div class="flex items-center gap-3">
+<div class="w-12 h-[2px] bg-primary/30"></div>
+<span class="text-primary font-title-md tracking-widest uppercase">SOBRE O GATINHO</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-secondary">Um Gato que Sabe Tudo</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                        Chococat é o gatinho preto doce que está sempre por dentro das últimas novidades. Ele ganhou esse nome por causa do seu nariz cor de chocolate! Seus bigodes ultra-sensíveis funcionam como antenas, captando todos os tipos de informações interessantes. 
+                    </p>
+<div class="bg-primary-container/20 p-8 rounded-lg border-l-4 border-primary relative overflow-hidden">
+<p class="italic text-secondary font-title-md z-10 relative">"A vida é como uma caixa de chocolates... e o Chococat sabe exatamente qual é qual!"</p>
+<img alt="Decoration" class="absolute -right-4 -bottom-4 w-20 opacity-20 rotate-12" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCawYi1nP956t9Ka4Mg0nRLCDZ8e4yWFjSM_zpneGdkpt2HExd9lKk4D-ctSdZXfRPvA9a4jLgJSFv3mJh2CbxEM5M3THRFrnu4PWjuongJ0Z8AYqA9hQ2Dj0q1GyH9pZurltQihwUHDf9kHYK9T3j2owQvWrcm5-RTiVLn_IH1cVIR9cYg3p5XT_jl9bb4nthtRGOAZKEcnoGZr1_CZhBLTNFyk2vaFhZ4htjqiUu9s9z6oklGRszvigS0QoGUX4skilHeWkrxpw">
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center gap-2 p-4 glass-panel rounded-lg hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-primary">cake</span>
+<span class="font-label-sm">Favorito: Doces</span>
+</div>
+<div class="flex items-center gap-2 p-4 glass-panel rounded-lg hover:shadow-md transition-shadow relative overflow-hidden">
+<img alt="Small Peeking" class="absolute -bottom-2 -right-2 w-8 opacity-40 float-animation pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOCQQWB4n-8SoD9uThXZ2jb793klsqq4nZ38VjZxifqRkB3PBYNfz8LUyv4BovasaFGje64nFjrrzO669hmboO5bbqAqz9JEvx00v4ekWYf_C9An_brslvgj2XsF2NNxznaEvT3gP1TRi6pKnagUCe7wYl_S7GvgV4qMZMtb4fevy5hl1eeBsIdSV07OWe7NNCzq8t2qk0wNGuRIBNTqxGks5lMjvScCQOmv4iRRtuOyjK9WzpqdHV1u3fO0ufnzGT_0Zb1bj9TA">
+<span class="material-symbols-outlined text-primary">pets</span>
+<span class="font-label-sm">Talento: Informação</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Game Section -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative z-10 py-12" id="game" style="position: relative; z-index: 20;">
+<!-- Peeking Cats in Game section boundaries -->
+<div class="absolute left-0 top-0 -translate-x-1/2 peek-left pointer-events-none z-10">
+<img alt="Peeking Chococat" class="w-56 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCawYi1nP956t9Ka4Mg0nRLCDZ8e4yWFjSM_zpneGdkpt2HExd9lKk4D-ctSdZXfRPvA9a4jLgJSFv3mJh2CbxEM5M3THRFrnu4PWjuongJ0Z8AYqA9hQ2Dj0q1GyH9pZurltQihwUHDf9kHYK9T3j2owQvWrcm5-RTiVLn_IH1cVIR9cYg3p5XT_jl9bb4nthtRGOAZKEcnoGZr1_CZhBLTNFyk2vaFhZ4htjqiUu9s9z6oklGRszvigS0QoGUX4skilHeWkrxpw">
+</div>
+<div class="absolute right-0 bottom-0 translate-x-1/2 peek-right pointer-events-none z-10">
+<img alt="Peeking Chococat" class="w-64 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOd8Ht8AKfG3m07VF_y2j0gCPIeGDaT9hYbYZy1OBiylCemwwByeKfCK_bhRoc1qacPY5vmekqbJvaePLErVphAoywoLMDG4ohVVDTHvaFiX5N5U9UdIDL1j8ChbPCJGSpBu7smQMOg3nGDo7QVLVkGDxBYbZfKzqUt9NJ3l5eV1Ani4nD1scOHB4qrgkEE_OcD42kWKZIvy4eL_S3-mJ7XAlk_qzQMHThbPnwvbAziCTycuDenvGVdM2UCM60bagLCmm1IjtNog">
+</div>
+<div class="glass-panel rounded-xl border-white/80 relative p-4 md:p-12">
+<!-- Decorative element inside the game section -->
+<div class="absolute -top-16 -right-16 w-32 h-32 float-animation pointer-events-none opacity-40" style="z-index: -1;">
+<img alt="Game Decor" class="w-full h-full object-contain pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHv3B5EE_MfHHxdH1lzTtIPVEXui0f8Mu6Igy9Psb0lr5kmuf53_lNvkeNSpM_2qWRw2g_pUvXbLYBU1QHDAQr7QuGzzM4bjJbBP1haJdzePP65ugiyZjWawvVeAL338hXBg9ZzVeIEbNdBk2eGCDfup_qxIZxLS1_ygta_uIGWQv-HJKm4ac1VA9DABVP9Ncl83i7J9qmWbGRPXoHJFJD28oDHURUrz0Tnt1B9cNxs3siy5DvfByRwsSw4NqqCBGCpix4fizIzA">
+</div>
+<!-- Corner peeking cat inside container -->
+<img alt="Corner Cat" class="absolute -bottom-10 -left-10 w-28 float-animation opacity-80 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIK_dhgDtCWH8yngZxSiDaovXQP2Qq7mtpo_DlDTFTwj2_nuUQHnmy-12BfunXtm_hUTNuThEE7vFnqjglSxKl-N0xd8P4CI86I62CGoRydLiasXKFNQ7kgevkpmEDRYTeaDhOVCAz6-sfoeaUt5ZrUc4DoRBTA_p_4gYs91E-MdyDHCwYzqZk2U_gctUHFsEXbKNa8SpgsGsnXYfONPW_towynqv8YF8fzjoGKZ2cc00U8HJ5SIAHf-EmO42Vh98ijtG27RFewA" style="z-index: -1;">
+<div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-secondary flex items-center gap-2">
+                            Jogo Choco-Match
+                            <img alt="paws" class="w-8 h-8 inline-block align-middle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOCQQWB4n-8SoD9uThXZ2jb793klsqq4nZ38VjZxifqRkB3PBYNfz8LUyv4BovasaFGje64nFjrrzO669hmboO5bbqAqz9JEvx00v4ekWYf_C9An_brslvgj2XsF2NNxznaEvT3gP1TRi6pKnagUCe7wYl_S7GvgV4qMZMtb4fevy5hl1eeBsIdSV07OWe7NNCzq8t2qk0wNGuRIBNTqxGks5lMjvScCQOmv4iRRtuOyjK9WzpqdHV1u3fO0ufnzGT_0Zb1bj9TA">
+</h2>
+<p class="text-on-surface-variant font-body-md">Encontre os pares de doces escondidos atrás dos azulejos de cacau!</p>
+</div>
+<div class="flex gap-4">
+<div class="px-6 py-3 bg-surface-container rounded-full text-primary font-bold">Movimentos: <span class="" id="moves-count">0</span></div>
+<button class="px-6 py-3 bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-colors shadow-md" onclick="resetGame()">Reiniciar Jogo</button>
+</div>
+</div>
+<div class="grid grid-cols-4 md:grid-cols-5 gap-3 md:gap-6 relative" id="game-grid"><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="cake">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">cake</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="icecream">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">icecream</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="icecream">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">icecream</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="egg_alt">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">egg_alt</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="local_cafe">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">local_cafe</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="local_cafe">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">local_cafe</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="fastfood">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">fastfood</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="restaurant">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">restaurant</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="cookie">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">cookie</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="restaurant">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">restaurant</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="fastfood">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">fastfood</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="emoji_food_beverage">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">emoji_food_beverage</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="bakery_dining">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">bakery_dining</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="emoji_food_beverage">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">emoji_food_beverage</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="bakery_dining">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">bakery_dining</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="cake">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">cake</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="brunch_dining">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">brunch_dining</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="cookie">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">cookie</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="egg_alt">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">egg_alt</span>
+                    </div>
+                </div><div class="choco-match-card aspect-square cursor-pointer relative" data-icon="brunch_dining">
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">brunch_dining</span>
+                    </div>
+                </div></div>
+</div>
+</section>
+<!-- SIDE INVASION ELEMENTS (PEEKING EFFECT) - Enhanced Density -->
+<div class="left-0 -translate-x-[45%] z-[60] pointer-events-none md:block hidden peek-left top-[10%]">
+<img alt="Chococat Peeking" class="w-[400px] h-auto drop-shadow-2xl pointer-events-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOd8Ht8AKfG3m07VF_y2j0gCPIeGDaT9hYbYZy1OBiylCemwwByeKfCK_bhRoc1qacPY5vmekqbJvaePLErVphAoywoLMDG4ohVVDTHvaFiX5N5U9UdIDL1j8ChbPCJGSpBu7smQMOg3nGDo7QVLVkGDxBYbZfKzqUt9NJ3l5eV1Ani4nD1scOHB4qrgkEE_OcD42kWKZIvy4eL_S3-mJ7XAlk_qzQMHThbPnwvbAziCTycuDenvGVdM2UCM60bagLCmm1IjtNog">
+</div>
+<div class="right-0 translate-x-[45%] z-[60] pointer-events-none md:block hidden peek-right top-[15%]">
+<img alt="Chococat Peeking" class="w-[450px] h-auto drop-shadow-2xl pointer-events-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCawYi1nP956t9Ka4Mg0nRLCDZ8e4yWFjSM_zpneGdkpt2HExd9lKk4D-ctSdZXfRPvA9a4jLgJSFv3mJh2CbxEM5M3THRFrnu4PWjuongJ0Z8AYqA9hQ2Dj0q1GyH9pZurltQihwUHDf9kHYK9T3j2owQvWrcm5-RTiVLn_IH1cVIR9cYg3p5XT_jl9bb4nthtRGOAZKEcnoGZr1_CZhBLTNFyk2vaFhZ4htjqiUu9s9z6oklGRszvigS0QoGUX4skilHeWkrxpw">
+</div>
+<div class="left-0 -translate-x-[40%] z-[60] pointer-events-none md:block hidden peek-left">
+<img alt="Chococat Peeking" class="w-[500px] h-auto drop-shadow-2xl pointer-events-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHv3B5EE_MfHHxdH1lzTtIPVEXui0f8Mu6Igy9Psb0lr5kmuf53_lNvkeNSpM_2qWRw2g_pUvXbLYBU1QHDAQr7QuGzzM4bjJbBP1haJdzePP65ugiyZjWawvVeAL338hXBg9ZzVeIEbNdBk2eGCDfup_qxIZxLS1_ygta_uIGWQv-HJKm4ac1VA9DABVP9Ncl83i7J9qmWbGRPXoHJFJD28oDHURUrz0Tnt1B9cNxs3siy5DvfByRwsSw4NqqCBGCpix4fizIzA">
+</div>
+<div class="right-0 translate-x-[40%] z-[60] pointer-events-none md:block hidden peek-right opacity-20">
+<img alt="Chococat Peeking" class="w-[550px] h-auto drop-shadow-2xl pointer-events-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDsKPDXrkp04NJXbjxFHQJUKpVNxLhYz5ugA332V7Q1OSgAaIlMdlmne1Sb4qc-FziyJJisigend9JUiR_-nH-TvAFWeFYW2agz5WAhC0iPiHMscgX6jhVAAYy4twfIYb91AhiCP2r92JVQanAiibhxWfPN_Y40UIetjWO1isVDxfbr6dhCLgwoJ7UVcjsA2vrmOzOW6if0NM34LMTs-BySLf2QXGDpig-D43E17bO280id_NslJSGJDNIurlKFnqSPgg8jfpmgQ">
+</div>
+<!-- Decorative Floating Paws/Bottom Peeking -->
+<div class="fixed bottom-0 left-[20%] z-[5] pointer-events-none peek-bottom opacity-50">
+<img alt="Peeking paws" class="w-32 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIK_dhgDtCWH8yngZxSiDaovXQP2Qq7mtpo_DlDTFTwj2_nuUQHnmy-12BfunXtm_hUTNuThEE7vFnqjglSxKl-N0xd8P4CI86I62CGoRydLiasXKFNQ7kgevkpmEDRYTeaDhOVCAz6-sfoeaUt5ZrUc4DoRBTA_p_4gYs91E-MdyDHCwYzqZk2U_gctUHFsEXbKNa8SpgsGsnXYfONPW_towynqv8YF8fzjoGKZ2cc00U8HJ5SIAHf-EmO42Vh98ijtG27RFewA">
+</div>
+<div class="fixed bottom-0 right-[25%] z-[5] pointer-events-none peek-bottom opacity-40 delay-1000">
+<img alt="Peeking paws" class="w-40 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOCQQWB4n-8SoD9uThXZ2jb793klsqq4nZ38VjZxifqRkB3PBYNfz8LUyv4BovasaFGje64nFjrrzO669hmboO5bbqAqz9JEvx00v4ekWYf_C9An_brslvgj2XsF2NNxznaEvT3gP1TRi6pKnagUCe7wYl_S7GvgV4qMZMtb4fevy5hl1eeBsIdSV07OWe7NNCzq8t2qk0wNGuRIBNTqxGks5lMjvScCQOmv4iRRtuOyjK9WzpqdHV1u3fO0ufnzGT_0Zb1bj9TA">
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low w-full border-t border-outline-variant/30 flex flex-col items-center justify-center gap-4 text-center relative z-10 overflow-hidden py-8 px-margin-mobile md:px-margin-desktop">
+<!-- Footer Peeking Cats -->
+<img alt="Footer Cat Left" class="absolute -left-10 bottom-0 w-48 opacity-30 float-animation pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOd8Ht8AKfG3m07VF_y2j0gCPIeGDaT9hYbYZy1OBiylCemwwByeKfCK_bhRoc1qacPY5vmekqbJvaePLErVphAoywoLMDG4ohVVDTHvaFiX5N5U9UdIDL1j8ChbPCJGSpBu7smQMOg3nGDo7QVLVkGDxBYbZfKzqUt9NJ3l5eV1Ani4nD1scOHB4qrgkEE_OcD42kWKZIvy4eL_S3-mJ7XAlk_qzQMHThbPnwvbAziCTycuDenvGVdM2UCM60bagLCmm1IjtNog">
+<img alt="Footer Cat Right" class="absolute -right-10 top-0 w-48 opacity-30 float-animation pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCawYi1nP956t9Ka4Mg0nRLCDZ8e4yWFjSM_zpneGdkpt2HExd9lKk4D-ctSdZXfRPvA9a4jLgJSFv3mJh2CbxEM5M3THRFrnu4PWjuongJ0Z8AYqA9hQ2Dj0q1GyH9pZurltQihwUHDf9kHYK9T3j2owQvWrcm5-RTiVLn_IH1cVIR9cYg3p5XT_jl9bb4nthtRGOAZKEcnoGZr1_CZhBLTNFyk2vaFhZ4htjqiUu9s9z6oklGRszvigS0QoGUX4skilHeWkrxpw">
+<img class="h-24 w-auto mb-4 hover:scale-110 transition-transform cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOCQQWB4n-8SoD9uThXZ2jb793klsqq4nZ38VjZxifqRkB3PBYNfz8LUyv4BovasaFGje64nFjrrzO669hmboO5bbqAqz9JEvx00v4ekWYf_C9An_brslvgj2XsF2NNxznaEvT3gP1TRi6pKnagUCe7wYl_S7GvgV4qMZMtb4fevy5hl1eeBsIdSV07OWe7NNCzq8t2qk0wNGuRIBNTqxGks5lMjvScCQOmv4iRRtuOyjK9WzpqdHV1u3fO0ufnzGT_0Zb1bj9TA">
+<div class="font-display-lg text-display-lg text-primary">Mundo do Chococat</div>
+<div class="flex flex-wrap justify-center gap-8 mt-4 font-body-md text-body-md text-secondary">
+<a class="hover:text-primary transition-all duration-300 hover:underline decoration-primary/30 underline-offset-4" href="#">Política de Privacidade</a>
+<a class="hover:text-primary transition-all duration-300 hover:underline decoration-primary/30 underline-offset-4" href="#">Contato</a>
+<a class="hover:text-primary transition-all duration-300 hover:underline decoration-primary/30 underline-offset-4" href="#">Sanrio Oficial</a>
+</div>
+<p class="font-body-md text-body-md text-secondary opacity-60 mt-6">© 2024 Sanrio - Feito com doçura para fãs do Chococat</p>
+</footer>
+<script>
+        const candyIcons = ['cake', 'icecream', 'cookie', 'bakery_dining', 'local_cafe', 'emoji_food_beverage', 'egg_alt', 'restaurant', 'fastfood', 'brunch_dining'];
+        let moves = 0;
+        let flippedCards = [];
+        let matchedPairs = 0;
+
+        function createGame() {
+            const grid = document.getElementById('game-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            moves = 0;
+            matchedPairs = 0;
+            document.getElementById('moves-count').innerText = moves;
+
+            const gameIcons = [...candyIcons, ...candyIcons].sort(() => Math.random() - 0.5);
+
+            gameIcons.forEach((icon, index) => {
+                const card = document.createElement('div');
+                card.className = 'choco-match-card aspect-square cursor-pointer relative';
+                card.dataset.icon = icon;
+                card.onclick = () => flipCard(card);
+
+                card.innerHTML = `
+                    <div class="absolute inset-0 bg-primary-container rounded-lg flex items-center justify-center border-4 border-white shadow-md backface-hidden z-10">
+                        <span class="text-primary text-4xl font-bold opacity-30">?</span>
+                    </div>
+                    <div class="absolute inset-0 bg-white rounded-lg flex items-center justify-center border-4 border-primary shadow-md rotate-y-180 backface-hidden" style="transform: rotateY(180deg)">
+                        <span class="material-symbols-outlined text-primary text-5xl">${icon}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
+                card.classList.add('flipped');
+                flippedCards.push(card);
+
+                if (flippedCards.length === 2) {
+                    moves++;
+                    document.getElementById('moves-count').innerText = moves;
+                    checkMatch();
+                }
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            if (card1.dataset.icon === card2.dataset.icon) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                flippedCards = [];
+                matchedPairs++;
+                if (matchedPairs === candyIcons.length) {
+                    setTimeout(() => alert('Parabéns! Você encontrou todos os doces do Chococat! 🐾'), 500);
+                }
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                }, 1000);
+            }
+        }
+
+        function resetGame() {
+            createGame();
+        }
+
+        window.onload = createGame;
+    </script>
+
+
+</body></html>
